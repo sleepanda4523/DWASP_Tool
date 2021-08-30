@@ -74,13 +74,12 @@ class MakeDataset:
         contain = json_df['id'].str.contains(year_str)
         subset_df = json_df[contain].sort_values(by='id')
 
-        """
-        select code
-        """
+        # Modify Dataset
         subset_df = subset_df.drop(subset_df.loc[subset_df['cvss'].isnull()].index)
         subset_df = subset_df.drop(subset_df.loc[subset_df['cwe'] == 'Unknown'].index)
         subset_df = subset_df.drop_duplicates(subset=['id']).sort_values(by='id')
-        subset_df.to_excel(self.savedir + 'dataset.xisx')
+
+        subset_df.to_excel(self.savedir + 'dataset.xlsx',engine='xlsxwriter')
         print('Made Dataset')
 
     def make_db_dataset(self, host, port, user, pw, db, query):
@@ -90,7 +89,11 @@ class MakeDataset:
         """
         select code
         """
-        result_df.to_excel(self.savedir + 'dataset.xisx')
+        result_df.to_excel(self.savedir + 'dataset.xlsx',engine='xlsxwriter')
         conn.close()
 
 
+# testing code
+# if __name__ == "__main__" :
+#     test = MakeDataset()
+#     test.clean_dataset(2019,2020)
