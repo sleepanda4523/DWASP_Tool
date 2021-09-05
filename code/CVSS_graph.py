@@ -6,40 +6,13 @@ import matplotlib.pyplot as plt
 
 class Cvss:
     savedir = "../data/"
-    cvss_df = pd.DataFrame()
+    df = pd.DataFrame()
     db = Database()
     resultdir = '../result/'
 
-    def get_name(self, path):
-        try:
-            num = self.cvss_df.iloc[path, 1].split('-')[1]
-            if num == 'CWE':
-                num = 0
-            week = self.db.get(int(num))
-            if week is None:
-                self.cwe_name[path] = 'Nop'
-            else:
-                self.cwe_name[path] = week.name
-        except:
-            print(f'err {path}')
-
-    def set_dataset(self):
-        df = pd.read_excel(self.savedir + 'dataset.xlsx')
-        self.cvss_df['CVE-ID'] = df['id']
-        self.cvss_df['CWE-ID'] = df['cwe']
-        self.cvss_df['CVSS'] = df['cvss']
-
-        print('Get CWE Data..')
-        self.cwe_name = ['' for i in range(self.cvss_df.shape[0])]
-        for i in range(0, self.cvss_df.shape[0]):
-            self.get_name(i)
-        self.cvss_df['CWE-NAME'] = self.cwe_name
-        print('Got CWE Data')
-        #self.cvss_df.to_excel(self.resultdir + 'test.xlsx', engine='xlsxwriter')
-
     def make_graph(self, sy, ey):
         print("Making CVSS graph..")
-        cvss_list = self.cvss_df['CVSS']
+        cvss_list = self.df['CVSS']
         count = {'0': 0, '1': 0,
                  '2': 0, '3': 0,
                  '4': 0, '5': 0,
