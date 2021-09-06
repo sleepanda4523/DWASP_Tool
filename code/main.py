@@ -1,5 +1,6 @@
 from download_read import MakeDataset
 from CVSS_graph import Cvss
+from cvss_freq import final
 from vuln_Freq import freq
 import numpy as np
 import pandas as pd
@@ -7,7 +8,7 @@ from cwe import Database
 import time
 
 
-class main(MakeDataset, Cvss, freq):
+class main(MakeDataset, Cvss, freq, final):
     def get_name(self, path):
         try:
             num = self.df.iloc[path, 1].split('-')[1]
@@ -43,6 +44,7 @@ def run():
     main_class.set_dataset()
     main_class.make_graph(sy, ey)
     main_class.make_freq()
+    main_class.make_final()
 
 
 if __name__ == "__main__":

@@ -21,7 +21,7 @@ class freq:
             else:
                 cwe_des[i] = week.description
         df['CWE-DES'] = cwe_des
-        print(cwe_des)
+        #print(cwe_des)
         return df
 
     def make_freq(self):
@@ -30,4 +30,4 @@ class freq:
         select_df = self.df.drop(['CVE-ID', 'CVSS'], axis=1)
         result_df = pd.merge(cwe_data.rename(columns={'index': 'CWE-NAME'}), select_df.drop_duplicates(['CWE-NAME']))
         result_df = self.plus_des(result_df)
-        result_df.to_excel(self.resultdir + 'freq.xlsx', engine='xlsxwriter')
+        result_df.to_excel(self.resultdir + 'freq.xlsx', engine='xlsxwriter', index=False)
